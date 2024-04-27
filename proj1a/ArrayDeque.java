@@ -52,7 +52,7 @@ public class ArrayDeque<T> {
         System.out.print(arr[endIndex - 1]);
     }
     private void downsize() {
-        T[] arr1 = (T[]) new Object[arr.length / 4];
+        T[] arr1 = (T[]) new Object[arr.length / 2];
         if (frontIndex < endIndex) {
             for (int i = 0; i < size; i++) {
                 arr1[i] = arr[frontIndex + 1 + i];
@@ -74,26 +74,26 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
+        if (arr.length >= 16 && size <= arr.length / 4) {
+            downsize();
+        }
         int index = (frontIndex + 1) % arr.length;
         T res = arr[index];
         frontIndex = index;
         size--;
-        if (arr.length >= 16 && size < arr.length / 4) {
-            downsize();
-        }
         return res;
     }
     public T removeLast() {
         if (size == 0) {
             return null;
         }
+        if (arr.length >= 16 && size <= arr.length / 4) {
+            downsize();
+        }
         int index = (endIndex - 1 + arr.length) % arr.length;
         T res = arr[index];
         endIndex = index;
         size--;
-        if (arr.length >= 16 && size < arr.length / 4) {
-            downsize();
-        }
         return res;
     }
     public T get(int index) {

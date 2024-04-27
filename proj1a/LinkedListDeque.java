@@ -1,5 +1,3 @@
-import java.util.Iterator;
-
 public class LinkedListDeque<T> {
     private static class Node<T> {
         private T val;
