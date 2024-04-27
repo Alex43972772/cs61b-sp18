@@ -9,18 +9,25 @@ public class ArrayDeque<T> {
         frontIndex = 7;
         endIndex = 0;
     }
+    private int plusOne(int index) {
+        return (index + 1) % arr.length;
+    }
+    private int minusOne(int index) {
+        return (arr.length + index - 1) % arr.length;
+    }
     private void upsize() {
         T[] arr1 = (T[]) new Object[arr.length * 2];
         int index1 = 0;
         int index = frontIndex + 1;
-        if (frontIndex + 1 < endIndex)
-            while (index < arr.length) {
-                arr1[index1] = arr[index];
-                index++;
-                index1++;
-            }
+        while (index < arr.length) {
+            arr1[index1] = arr[index];
+            index++;
+            index1++;
+        }
         index = 0;
-        while (index < endIndex) {
+        int end = endIndex;
+        if (end == 0) end = arr.length;
+        while (index < end) {
             arr1[index1] = arr[index];
             index++;
             index1++;
@@ -34,7 +41,7 @@ public class ArrayDeque<T> {
             upsize();
         }
         arr[frontIndex] = item;
-        frontIndex--;
+        frontIndex = minusOne(frontIndex);
         size++;
     }
     public void addLast(T item) {
@@ -42,7 +49,7 @@ public class ArrayDeque<T> {
             upsize();
         }
         arr[endIndex] = item;
-        endIndex++;
+        endIndex = plusOne(endIndex);
         size++;
     }
     public boolean isEmpty() {
@@ -64,7 +71,7 @@ public class ArrayDeque<T> {
         T[] arr1 = (T[]) new Object[arr.length / 2];
         if (frontIndex < endIndex) {
             for (int i = 0; i < size; i++) {
-                arr1[i] = arr[frontIndex + 1];
+                arr1[i] = arr[frontIndex + 1 + i];
             }
         } else {
             for (int i = frontIndex + 1; i < arr.length; i++) {
@@ -85,11 +92,9 @@ public class ArrayDeque<T> {
         if (arr.length >= 16 && size <= arr.length / 4) {
             downsize();
         }
-        int index = (frontIndex + 1) % arr.length;
-        T res = arr[index];
-        frontIndex = index;
+        frontIndex = plusOne(frontIndex);
         size--;
-        return res;
+        return arr[frontIndex];
     }
     public T removeLast() {
         if (size == 0) {
@@ -98,65 +103,14 @@ public class ArrayDeque<T> {
         if (arr.length >= 16 && size <= arr.length / 4) {
             downsize();
         }
-        int index = (endIndex - 1 + arr.length) % arr.length;
-        T res = arr[index];
-        endIndex = index;
+        endIndex = minusOne(endIndex);
         size--;
-        return res;
+        return arr[endIndex];
     }
     public T get(int index) {
         if (index >= size) {
             return null;
         }
         return arr[(frontIndex + 1 + index) % arr.length];
-    }
-
-    public static void main(String[] argc) {
-        ArrayDeque<Integer> ad = new ArrayDeque<>();
-        ad.addLast(9);
-        ad.addLast(8);
-        ad.addLast(7);
-        ad.addLast(9);
-        ad.addLast(8);
-        ad.addLast(7);
-        ad.addLast(9);
-        ad.addLast(8);
-        ad.addLast(7);
-        ad.addLast(9);
-        ad.addLast(8);
-        ad.addLast(7);
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        ad.addLast(9);
-        System.out.println(ad.isEmpty());
-        ad.removeFirst();
-        System.out.println(ad.isEmpty());
     }
 }
