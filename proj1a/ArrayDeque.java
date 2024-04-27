@@ -10,15 +10,24 @@ public class ArrayDeque<T> {
         endIndex = 0;
     }
     private void upsize() {
-        T[] arr1 = (T[]) new Object[size * 2];
-        for (int i = 0; i < endIndex; i++) {
-            arr1[i] = arr[i];
+        T[] arr1 = (T[]) new Object[arr.length * 2];
+        int index1 = 0;
+        int index = frontIndex + 1;
+        if (frontIndex + 1 < endIndex)
+            while (index < arr.length) {
+                arr1[index1] = arr[index];
+                index++;
+                index1++;
+            }
+        index = 0;
+        while (index < endIndex) {
+            arr1[index1] = arr[index];
+            index++;
+            index1++;
         }
-        for (int i = frontIndex + 1; i < size; i++) {
-            arr1[i + size] = arr[i];
-        }
-        frontIndex += size;
         arr = arr1;
+        endIndex = size;
+        frontIndex = arr.length - 1;
     }
     public void addFirst(T item) {
         if (size == arr.length) {
@@ -29,7 +38,7 @@ public class ArrayDeque<T> {
         size++;
     }
     public void addLast(T item) {
-        if (frontIndex < endIndex) {
+        if (size == arr.length) {
             upsize();
         }
         arr[endIndex] = item;
@@ -55,20 +64,19 @@ public class ArrayDeque<T> {
         T[] arr1 = (T[]) new Object[arr.length / 2];
         if (frontIndex < endIndex) {
             for (int i = 0; i < size; i++) {
-                arr1[i] = arr[frontIndex + 1 + i];
+                arr1[i] = arr[frontIndex + 1];
             }
-            frontIndex = arr1.length - 1;
-            endIndex = size;
         } else {
-            for (int i = 0; i < endIndex; i++) {
-                arr1[i] = arr[i];
-            }
             for (int i = frontIndex + 1; i < arr.length; i++) {
-                arr1[i - arr.length / 2] = arr[i];
+                arr1[i - frontIndex - 1] = arr[i];
             }
-            frontIndex -= arr.length / 2;
+            for (int i = 0; i < endIndex; i++) {
+                arr1[arr.length - frontIndex - 1 + i] = arr[i];
+            }
         }
         arr = arr1;
+        endIndex = size;
+        frontIndex = arr.length - 1;
     }
     public T removeFirst() {
         if (size == 0) {
@@ -101,5 +109,54 @@ public class ArrayDeque<T> {
             return null;
         }
         return arr[(frontIndex + 1 + index) % arr.length];
+    }
+
+    public static void main(String[] argc) {
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        ad.addLast(9);
+        ad.addLast(8);
+        ad.addLast(7);
+        ad.addLast(9);
+        ad.addLast(8);
+        ad.addLast(7);
+        ad.addLast(9);
+        ad.addLast(8);
+        ad.addLast(7);
+        ad.addLast(9);
+        ad.addLast(8);
+        ad.addLast(7);
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        ad.addLast(9);
+        System.out.println(ad.isEmpty());
+        ad.removeFirst();
+        System.out.println(ad.isEmpty());
     }
 }
