@@ -11,19 +11,27 @@ public class ArrayDeque<T> {
     }
     private void upsize() {
         T[] arr1 = (T[]) new Object[size * 2];
-        for (int i = 0; i < endIndex; i++) arr1[i] = arr[i];
-        for (int i = frontIndex + 1; i < size; i++) arr1[i + size] = arr[i];
+        for (int i = 0; i < endIndex; i++) {
+            arr1[i] = arr[i];
+        }
+        for (int i = frontIndex + 1; i < size; i++) {
+            arr1[i + size] = arr[i];
+        }
         frontIndex += size;
         arr = arr1;
     }
     public void addFirst(T item) {
-        if (size == arr.length) upsize();
+        if (size == arr.length) {
+            upsize();
+        }
         arr[frontIndex] = item;
         frontIndex--;
         size++;
     }
     public void addLast(T item) {
-        if (frontIndex < endIndex) upsize();
+        if (frontIndex < endIndex) {
+            upsize();
+        }
         arr[endIndex] = item;
         endIndex++;
         size++;
@@ -63,7 +71,9 @@ public class ArrayDeque<T> {
         arr = arr1;
     }
     public T removeFirst() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         int index = (frontIndex + 1) % arr.length;
         T res = arr[index];
         frontIndex = index;
@@ -74,7 +84,9 @@ public class ArrayDeque<T> {
         return res;
     }
     public T removeLast() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         int index = (endIndex - 1 + arr.length) % arr.length;
         T res = arr[index];
         endIndex = index;
@@ -85,7 +97,9 @@ public class ArrayDeque<T> {
         return res;
     }
     public T get(int index) {
-        if (index >= size) return null;
+        if (index >= size) {
+            return null;
+        }
         return arr[(frontIndex + 1 + index) % arr.length];
     }
 }
