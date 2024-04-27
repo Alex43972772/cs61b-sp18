@@ -26,7 +26,9 @@ public class ArrayDeque<T> {
         }
         index = 0;
         int end = endIndex;
-        if (end == 0) end = arr.length;
+        if (end == 0) {
+            end = arr.length;
+        }
         while (index < end) {
             arr1[index1] = arr[index];
             index++;
